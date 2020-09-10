@@ -11,6 +11,32 @@
 			choice = Math.floor(Math.random() * 3);
 			return(plays[choice]);
 		}
+		function singleRound(playerSelection, computerSelection){
+			//if same, return tie
+			if (playerSelection === computerSelection){
+				return("It's a tie!");
+			}
+			//if computer is rock
+			if (computerSelection === "rock"){
+				return (playerSelection === "paper") ? "You win!" //if player is paper (lose)
+				: "you lose!"; //if player is scissors (lose)
+			}
+			//if computer is paper
+			if (computerSelection === "paper"){
+				return (playerSelection === "rock") ? "You lose!" //if player is rock (lose)
+				: "you win!"; //if player is scissors (win)
+			}
+			//if computer is scissor
+			if (computerSelection === "scissors"){
+				return (playerSelection === "rock") ? "you win!" //if player is rock (win)
+				: "you lose!" //if player is paper (lose)
+			}
+		}
+		
+		const playerSelection = "rock"
+		const computerSelection = computerPlay()
+		
+		console.log(singleRound(playerSelection, computerSelection))
 	</script>
 </body>
 </html>
