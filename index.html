@@ -2,41 +2,151 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<meta name="description" content="rock paper scissor game for odin project assignment">
+	<meta name="keywords" content="HTML, JavaScript">
+	<meta name="author" content="Gerardo Hidalgo-Cuellar">
+	<title>Gerardo Hidalgo-Cuellar's Rock-Paper-Scissors Game</title>
 </head>
 <body>
 	<script>
-		function computerPlay(){
+
+		// Check to make sure play is allowed
+		//input: [str] possible play
+		//output: [bool] is play allowed or not
+		function checkPlay(play){
+			return (play === "rock") ? true
+				:  (play === "paper") ? true
+				:  (play === "scissors") ? true
+				:  false;
+		}
+
+
+		// get user game selection
+		//input: none
+		//output: [str] rock, paper, or scissors
+		function getUserPlay(){
+			userPlay = prompt("Rock, Paper, or Scissors?").toLowerCase();
+			while (checkPlay(userPlay) === false){
+				userPlay = prompt("Rock, Paper, or Scissors?").toLowerCase();
+			}
+			return userPlay;
+		}
+		
+
+		// Randomly chooses rock, paper, or scissors 
+		//input: none
+		//output: [str] rock, paper, or scissors
+		function getComputerPlay(){
 			plays = ["rock", "paper", "scissors"];
 			choice = Math.floor(Math.random() * 3);
 			return(plays[choice]);
 		}
-		function singleRound(playerSelection, computerSelection){
-			//if same, return tie
-			if (playerSelection === computerSelection){
-				return("It's a tie!");
+
+		// Display the plays of each of the two players
+		//input: [str] player choice, computer choice
+		//output: none, just console.log each choice
+		function displayPlays(userPlay, computerPlay){
+			console.log(`User Play: ${userPlay}`);
+			console.log(`Computer Play: ${computerPlay}`);
+			return;
+		}
+
+		// Increase score of winner (or do nothing if tie) 
+		//input: [str] winner,[int] userScore,[int] computerScore
+		//output: [int] userScore, computerScore 
+		function updateScores(winner, userScore, computerScore){
+			if (winner === "user"){
+				userScore++;
 			}
-			//if computer is rock
-			if (computerSelection === "rock"){
-				return (playerSelection === "paper") ? "You win!" //if player is paper (lose)
-				: "you lose!"; //if player is scissors (lose)
+			else if (winner === "computer"){
+				computerScore++;
 			}
-			//if computer is paper
-			if (computerSelection === "paper"){
-				return (playerSelection === "rock") ? "You lose!" //if player is rock (lose)
-				: "you win!"; //if player is scissors (win)
+			return {
+				updatedUserScore: userScore,
+				updatedComputerScore: computerScore,
+			};
+		}
+
+		// Displays the scores given to console
+		//input: [int] userScore, computerScore
+		//output: none
+		function displayScores(userScore, computerScore){
+			console.log(`User Score: ${userScore}`);
+			console.log(`Computer Score: ${computerScore}`);
+			return; 
+		}
+
+		// Displays the winner given scores
+		//input: [int] userScore, computerScore
+		//output: none, console logs winner
+		function displayWinner(userScore, computerScore){
+			if (userScore > computerScore){
+				console.log("User Wins!");
 			}
-			//if computer is scissor
-			if (computerSelection === "scissors"){
-				return (playerSelection === "rock") ? "you win!" //if player is rock (win)
-				: "you lose!" //if player is paper (lose)
+			else if (userScore < computerScore){
+				console.log("Computer Wins!");
+			}
+			else{
+				console.log("TIE!");
 			}
 		}
+
+		// Plays a single round of rock, paper, scissors
+		//input: [str] the player selection and the computer selection
+		//output: [str] winner  
+		function playRound(userSelection, computerSelection){
+			//if same, return tie
+			if (userSelection === computerSelection){
+				return(null);
+			}
+			//if computer is rock
+			else if (computerSelection === "rock"){
+				if (userSelection === "paper") {return("user")} //user is paper, PLAYER  WIN
+				else if (userSelection === "scissors"){return("computer")} //user is scissors, COMPUTER WIN
+			}
+
+			//if computer is paper
+			else if (computerSelection === "paper"){
+				if (userSelection === "rock") { return("computer")} //if user is rock, COMPUTER WIN 
+				else if (userSelection === "scissors"){return("user")} //if user is scissors, PLAYER WIN
+			}
+			//if computer is scissor
+			else{
+				if (userSelection === "rock") {return("user")} //if user is rock, PLAYER WIN 
+				else if (userSelection === "paper") {return("computer")} //if user is paper, COMPUTER WIN
+			}
+		}
+
+		function game(){
+			var userScore = 0;
+			var computerScore = 0;
+			var gameNumber; 
+			const totalGames = 5;
+			//play game 5 times
+			for (gameNumber = 0; gameNumber < totalGames; gameNumber++){
+				//get plays
+				userPlay = getUserPlay();
+				computerPlay = getComputerPlay();
+				//display game number, plays
+				console.log(`Game ${gameNumber + 1}`);
+				displayPlays(userPlay, computerPlay);
+				//play the game, get winner from playRound function
+				var winner = playRound(userPlay, computerPlay);
+				//update and display scores
+				var updatedScores = updateScores(winner, userScore, computerScore);
+				userScore = updatedScores.updatedUserScore;
+				computerScore = updatedScores.updatedComputerScore;
+				displayScores(userScore, computerScore);
+				console.log('\n');
+			}
+			//display scores and declare winner
+			console.log("FINAL SCORES");
+			displayScores(userScore, computerScore);
+			displayWinner(userScore, computerScore);
+		}
+
+		game();
 		
-		const playerSelection = "rock"
-		const computerSelection = computerPlay()
-		
-		console.log(singleRound(playerSelection, computerSelection))
 	</script>
 </body>
 </html>
