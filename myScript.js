@@ -7,9 +7,6 @@ let gameNumber = 1;
 
 
 
-
-
-
 // Randomly chooses rock, paper, or scissors 
 //input: none
 //output: [str] rock, paper, or scissors
@@ -104,7 +101,9 @@ function playRound(userSelection, computerSelection){
 
 
 function btnClick(e){
+	console.log(this);
 	this.classList.add("pressed");
+	console.log(this);
 	//checkgame number
 	if (gameNumber < totalGames){
 		let computerPlay = getComputerPlay();

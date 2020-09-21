@@ -1,3 +1,3 @@
 # rock-paper-scissors
 
-CLI, rock paper scissors game
+browser-based rock paper scissors game made by Gerardo Hidalgo-Cuellar
